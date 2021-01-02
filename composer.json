@@ -1,8 +1,0 @@
-{
-    "require-dev": {
-        "greabock/maker": "^1.1"
-    },
-    "require": {
-        "easycorp/easyadmin-bundle": "^3.2"
-    }
-}
