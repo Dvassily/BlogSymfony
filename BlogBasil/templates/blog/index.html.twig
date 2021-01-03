@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+    Bienvenue sur mon blog !
+{% endblock %}
+{% block body %}
+    <section>
+        <h2>Contenu [{{ page * 5 }} - {{ page * 5 + 5 }}]</h2>
+        {% if page > 0 %}
+            <a href="/?page={{ page - 1 }}">Précedent</a>
+        {% endif %}
+        {% if page < (page_count - 1)  %}
+            <a href="/?page={{ page + 1 }}">Suivant</a>
+        {% endif %}
+        {% for post in posts %}
+            {{ include('blog/post.html.twig') }}
+        {% endfor %}
+    </section>
+    {% if is_granted('ROLE_BLOG_ADMIN') %}
+        <a href="/newAction">Nouveau billet</a>
+    {% endif %}
+{% endblock %}

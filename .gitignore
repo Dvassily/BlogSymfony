@@ -1,2 +1,3 @@
 /BlogBasil/var/cache/*
 /BlogBasil/var/log/*
+/BlogBasil/vendor/*
