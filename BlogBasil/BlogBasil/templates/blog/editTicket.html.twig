@@ -1,0 +1,7 @@
+<h2>Editer un billet</h2>
+{{ form_start(newTicketForm) }}
+{{ form_row(newTicketForm.titre) }}
+{{ form_row(newTicketForm.content) }}
+{{ form_row(newTicketForm.validate, {'label' : 'Valider'})}}
+{{ form_end(newTicketForm) }}
+<a href="/">Retour à l'accueil</a>

@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+    <h1>Bienvenue sur mon blog !</h1>
+{% endblock %}
+{% block body %}
+    <section>
+        <h1>Contenu</h1>
+        {% for post in posts %}
+            {{ include('blog/post.html.twig') }}
+        {% endfor %}
+    </section>
+    {% if is_granted('ROLE_BLOG_ADMIN') %}
+        <a href="/newAction">Nouveau billet</a>
+    {% endif %}
+{% endblock %}

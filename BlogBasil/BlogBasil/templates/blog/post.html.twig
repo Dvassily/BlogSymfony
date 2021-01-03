@@ -1,0 +1,7 @@
+<section class="post">
+    <h1><a href="{{ post.getUrlAlias() }}">{{ post.titre }}</a></h1>
+    <a href="/editAction/{{ post.getId() }}">Editer</a>
+    <a href="/deleteAction/{{ post.getId() }}">Supprimer</a>
+    <p>{{ post.getFormattedPublishedDate() }}</p>
+    <p>{{ post.content }}</p>
+</section>
