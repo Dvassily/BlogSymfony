@@ -28,7 +28,7 @@ class Post
     private $url_alias;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=4096)
      */
     private $content;
 

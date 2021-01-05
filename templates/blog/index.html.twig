@@ -3,8 +3,11 @@
     Bienvenue sur mon blog !
 {% endblock %}
 {% block body %}
+    {% if is_granted('ROLE_BLOG_ADMIN') %}
+        <a href="/newAction">Nouveau billet</a>
+    {% endif %}
     <section>
-        <h2>Contenu [{{ page * 5 }} - {{ page * 5 + 5 }}]</h2>
+        <h2 class="text-center">Contenu [{{ page * 5 }} - {{ page * 5 + 5 }}]</h2>
         {% if page > 0 %}
             <a href="/?page={{ page - 1 }}">Précedent</a>
         {% endif %}
@@ -15,7 +18,10 @@
             {{ include('blog/post.html.twig') }}
         {% endfor %}
     </section>
-    {% if is_granted('ROLE_BLOG_ADMIN') %}
-        <a href="/newAction">Nouveau billet</a>
-    {% endif %}
+    <section>
+        <h2 class="text-center">Sur MySkyBlog</h2>
+        {% for post in other_blog %}
+            {{ include('blog/post.html.twig') }}
+        {% endfor %}
+    </section>
 {% endblock %}

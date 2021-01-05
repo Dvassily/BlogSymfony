@@ -10,12 +10,14 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpClient\HttpClient;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\Routing\Annotation\Route;
 
 class BlogController extends AbstractController
 {
     const PAGE_LENGTH = 5;
+    const OTHER_BLOG_URL = 'https://enigmatic-oasis-16745.herokuapp.com';
 
     /**
      * @Route("/post/{id}", name="post")
@@ -44,10 +46,27 @@ class BlogController extends AbstractController
         $posts = $repository->findFromInterval($page * self::PAGE_LENGTH, $page * self::PAGE_LENGTH + self::PAGE_LENGTH, true);
         $pageCount = ceil($repository->ticketCount() / 5);
 
+        $httpClient = HttpClient::create();
+        $response = $httpClient->request('GET', self::OTHER_BLOG_URL . '/api/posts');
+        $ticketsOtherBlog = [];
+        if ($response->getStatusCode() == 200) {
+            $content = json_decode($response->getContent());
+
+            foreach ($content->data as $t) {
+                $ticket = new Post();
+                $ticket->setTitre($t->title);
+                $ticket->setContent($t->content);
+                $ticket->setPublished(new \DateTime($t->created_at->date));
+                $ticket->setUrlAlias(self::OTHER_BLOG_URL . '/' . $t->slug);
+                $ticketsOtherBlog[] = $ticket;
+            }
+        }
+
         return $this->render('blog/index.html.twig', [
             'posts' => $posts,
             'page' => $page,
-            'page_count' => $pageCount
+            'page_count' => $pageCount,
+            'other_blog' => $ticketsOtherBlog
         ]);
     }
 
@@ -58,8 +77,8 @@ class BlogController extends AbstractController
         $post = new Post();
 
         $form = $this->createFormBuilder($post)
-            ->add('titre', TextType::class, ['label' => "Titre"])
-            ->add('content', TextareaType::class,  ['attr' => ['class' => 'formcontent', 'rows' => 10], 'label' => 'Contenu' ])
+            ->add('titre', TextType::class, ['attr' => ['class' => 'formcontent', 'rows' => 1, 'style' => 'width: 500px'], 'label' => "Titre"])
+            ->add('content', TextareaType::class,  ['attr' => ['class' => 'formcontent', 'rows' => 10, 'style' => 'width: 500px'], 'label' => 'Contenu' ])
             ->add('validate', SubmitType::class, ['label'=>'Valider'])
             ->getForm();
 

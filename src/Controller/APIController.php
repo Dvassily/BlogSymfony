@@ -19,10 +19,7 @@ class APIController extends AbstractController
     {
         $repository = $entityManager->getRepository(Post::class);
 
-        $begin = $request->query->get('begin');
-        $end = $request->query->get('end');
-
-        $tickets = $repository->findAll();
+        $tickets = $repository->findFromInterval(0, 5, true);
 
         $result = [];
         foreach ($tickets as $ticket){

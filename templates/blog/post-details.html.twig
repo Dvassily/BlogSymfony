@@ -1,2 +1,8 @@
-{{ include('blog/post.html.twig') }}
-<a href="/">Retour à l'accueil</a>
+{% extends 'base.html.twig' %}
+{% block title %}
+    Bienvenue sur mon blog !
+{% endblock %}
+{% block body %}
+    {{ include('blog/post.html.twig') }}
+    <a href="/">Retour à l'accueil</a>
+{% endblock %}
